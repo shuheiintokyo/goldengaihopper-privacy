@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ゴールデン街ホッパー - プライバシーポリシー</title>
+    <title>ゴールデン街ホッパー - プライバシーポリシー / Privacy Policy</title>
     <style>
         * {
             margin: 0;
@@ -203,18 +203,37 @@
             font-weight: bold;
             font-size: 1em;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
         .lang-toggle:hover {
             background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .lang-toggle:active {
+            transform: scale(0.95);
         }
 
         .lang-content {
             display: none;
+            animation: fadeIn 0.4s ease-in;
         }
 
         .lang-content.active {
             display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .table-container {
@@ -273,9 +292,9 @@
     </style>
 </head>
 <body>
-    <div class="lang-toggle" onclick="toggleLanguage()">
-        <span id="lang-btn">EN</span>
-    </div>
+    <button class="lang-toggle" onclick="toggleLanguage()" aria-label="Toggle language">
+        <span id="lang-btn">🌐 EN</span>
+    </button>
 
     <div class="container">
         <!-- Japanese Content -->
@@ -588,11 +607,27 @@
             if (jaContent.classList.contains('active')) {
                 jaContent.classList.remove('active');
                 enContent.classList.add('active');
-                langBtn.textContent = 'JP';
+                langBtn.textContent = '🌐 JP';
             } else {
                 enContent.classList.remove('active');
                 jaContent.classList.add('active');
-                langBtn.textContent = 'EN';
+                langBtn.textContent = '🌐 EN';
+            }
+        }
+
+        // Save language preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang === 'en') {
+                toggleLanguage();
+            }
+        });
+
+        // Optional: Detect browser language on first visit
+        if (!localStorage.getItem('preferredLanguage')) {
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang.startsWith('en')) {
+                toggleLanguage();
             }
         }
     </script>
